@@ -64,7 +64,7 @@ func Render(result *scanner.ScanResult, cfg *config.Config) {
 	case "csv":
 		output = "IP,Port,Protocol,State,Service,Version\n" + formatCSV(result)
 	case "html":
-		output = formatHTML(result)
+		output = FormatHTML(result)
 	case "greppable":
 		output = formatGreppable(result)
 	default:
@@ -79,7 +79,7 @@ func Render(result *scanner.ScanResult, cfg *config.Config) {
 		case ".json":
 			output = formatJSON(result)
 		case ".html", ".htm":
-			output = formatHTML(result)
+			output = FormatHTML(result)
 		case ".csv":
 			output = "IP,Port,Protocol,State,Service,Version\n" + formatCSV(result)
 		}
@@ -190,7 +190,7 @@ func formatGreppable(result *scanner.ScanResult) string {
 	return b.String()
 }
 
-func formatHTML(result *scanner.ScanResult) string {
+func FormatHTML(result *scanner.ScanResult) string {
 	var portRows strings.Builder
 	for _, host := range result.Hosts {
 		for _, p := range host.Ports {
