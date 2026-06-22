@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          check-latest: true
+
+      - name: Run tests
+        run: go test -v -race ./...
+
+      - name: Build binaries
+        run: |
+          mkdir -p dist
+          # Linux
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/firescan-linux-amd64 ./cmd/firescan/
+          tar -czf dist/firescan-linux-amd64.tar.gz -C dist firescan-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/firescan-linux-arm64 ./cmd/firescan/
+          tar -czf dist/firescan-linux-arm64.tar.gz -C dist firescan-linux-arm64
+          # macOS
+          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o dist/firescan-darwin-amd64 ./cmd/firescan/
+          tar -czf dist/firescan-darwin-amd64.tar.gz -C dist firescan-darwin-amd64
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o dist/firescan-darwin-arm64 ./cmd/firescan/
+          tar -czf dist/firescan-darwin-arm64.tar.gz -C dist firescan-darwin-arm64
+          # Windows
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o dist/firescan-windows-amd64.exe ./cmd/firescan/
+          zip -j dist/firescan-windows-amd64.zip dist/firescan-windows-amd64.exe
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            ## 🔥 FireScan v${{ github.ref_name }}
+            
+            ### Changes
+            - See commit history for full changelog
+            
+            ### Installation
+            ```bash
+            curl -sSL https://raw.githubusercontent.com/mr-coder20/FireScan/main/scripts/install.sh | bash
+            ```
+            
+            ### Binary Downloads
+            - [Linux AMD64](https://github.com/mr-coder20/FireScan/releases/download/${{ github.ref_name }}/firescan-linux-amd64.tar.gz)
+            - [Linux ARM64](https://github.com/mr-coder20/FireScan/releases/download/${{ github.ref_name }}/firescan-linux-arm64.tar.gz)
+            - [macOS AMD64](https://github.com/mr-coder20/FireScan/releases/download/${{ github.ref_name }}/firescan-darwin-amd64.tar.gz)
+            - [macOS ARM64 (Apple Silicon)](https://github.com/mr-coder20/FireScan/releases/download/${{ github.ref_name }}/firescan-darwin-arm64.tar.gz)
+            - [Windows AMD64](https://github.com/mr-coder20/FireScan/releases/download/${{ github.ref_name }}/firescan-windows-amd64.zip)

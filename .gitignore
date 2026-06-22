@@ -1,0 +1,50 @@
+# Binaries
+/bin/
+/firescan
+*.exe
+*.test
+*.out
+
+# Build
+/build/
+/dist/
+/releases/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencies
+/vendor/
+
+# Coverage
+coverage.txt
+coverage.html
+coverage.out
+
+# Temp
+/tmp/
+*.tmp
+*.temp
+*.log
+
+# Environment
+.env
+.env.local
+
+# Config
+/config.yaml
+/config.yml
+!firescan.yaml
+
+# Go
+go.work
+go.work.sum
