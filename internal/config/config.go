@@ -98,7 +98,7 @@ func FromFlags(cmd *cobra.Command, args []string) *Config {
 
 	if !cfg.PipeMode {
 		stat, _ := os.Stdin.Stat()
-		cfg.PipeMode = (stat.Mode()&os.ModeCharDevice) == 0
+		cfg.PipeMode = (stat.Mode() & os.ModeCharDevice) == 0
 	}
 
 	if cfg.AllPorts {

@@ -55,8 +55,8 @@ func (e *NaabuEngine) Scan(cfg *config.Config) (*ScanResult, error) {
 			continue
 		}
 		var data struct {
-			Port   int    `json:"port"`
-			IP     string `json:"ip"`
+			Port     int    `json:"port"`
+			IP       string `json:"ip"`
 			Protocol string `json:"protocol"`
 		}
 		if err := json.Unmarshal([]byte(line), &data); err == nil && data.Port > 0 {

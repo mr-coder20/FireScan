@@ -31,13 +31,13 @@ type ScanConfig struct {
 
 // ScanResult is the public scan result type
 type ScanResult struct {
-	Target      string             `json:"target"`
-	Duration    string             `json:"duration"`
-	DurationSec float64            `json:"durationSeconds"`
+	Target      string               `json:"target"`
+	Duration    string               `json:"duration"`
+	DurationSec float64              `json:"durationSeconds"`
 	Hosts       []scanner.HostResult `json:"hosts"`
-	TotalOpen   int                `json:"totalOpenPorts"`
-	Engine      string             `json:"engine"`
-	Errors      []string           `json:"errors,omitempty"`
+	TotalOpen   int                  `json:"totalOpenPorts"`
+	Engine      string               `json:"engine"`
+	Errors      []string             `json:"errors,omitempty"`
 }
 
 // NewScanner creates a new FireScan scanner
