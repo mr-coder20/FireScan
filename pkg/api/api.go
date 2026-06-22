@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-
+	"fmt"
 	"github.com/mr-coder20/FireScan/internal/config"
 	"github.com/mr-coder20/FireScan/internal/output"
 	"github.com/mr-coder20/FireScan/internal/scanner"
