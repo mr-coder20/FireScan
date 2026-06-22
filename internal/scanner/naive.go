@@ -117,7 +117,9 @@ func scanTCPPort(target string, port, timeout int) PortInfo {
 	defer conn.Close()
 
 	pi.State = "open"
-	conn.SetDeadline(time.Now().Add(2 * time.Second))
+
+	// حل ارور عدم بررسی خروجی متد بر اساس استانداردهای errcheck لِینتر
+	_ = conn.SetDeadline(time.Now().Add(time.Duration(timeout) * time.Second))
 
 	buf := make([]byte, 256)
 	n, _ := conn.Read(buf)

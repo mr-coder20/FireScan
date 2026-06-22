@@ -86,7 +86,11 @@ func Render(result *scanner.ScanResult, cfg *config.Config) {
 
 		dir := filepath.Dir(cfg.OutputFile)
 		if dir != "." {
-			os.MkdirAll(dir, 0755)
+			// حل ارور os.MkdirAll بر اساس قوانین errcheck
+			if err := os.MkdirAll(dir, 0755); err != nil {
+				fmt.Printf("  ✗ Error creating directory: %v\n", err)
+				return
+			}
 		}
 		if err := os.WriteFile(cfg.OutputFile, []byte(output), 0644); err != nil {
 			fmt.Printf("  ✗ Error writing file: %v\n", err)
@@ -100,7 +104,7 @@ func formatTable(result *scanner.ScanResult) string {
 	var b strings.Builder
 
 	b.WriteString(strings.Repeat("─", 60) + "\n")
-	b.WriteString(fmt.Sprintf("  FireScan Summary\n"))
+	b.WriteString("  FireScan Summary\n") // حل ارور S1039: حذف Sprintf غیرضروری برای رشته ثابت
 	b.WriteString(strings.Repeat("─", 60) + "\n")
 	b.WriteString(fmt.Sprintf("  Target:  %s\n", result.Target))
 	b.WriteString(fmt.Sprintf("  Engine:  %s\n", result.Engine))
